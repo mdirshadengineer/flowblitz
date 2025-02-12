@@ -1,0 +1,55 @@
+{
+  "name": "flowblitz",
+  "version": "0.0.0",
+  "description": "Automate. Innovate. Elevate.",
+  "scripts": {
+    "web": "pnpm --filter @flowblitz start",
+    "web:dev": "pnpm --filter @flowblitz/web dev",
+    "changeset": "changeset init",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "automation",
+    "workflow"
+  ],
+  "author": {
+    "name": "Md Irshad",
+    "email": "mdirshadengineer@gmail.com",
+    "url": "https://mdirshad.vercel.app"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@changesets/cli": "^2.27.12"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mdirshadengineer/flowblitz.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mdirshadengineer/flowblitz/issues"
+  },
+  "homepage": "https://github.com/mdirshadengineer/flowblitz#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "private": true,
+  "contributors": [
+    {
+      "name": "Md Irshad",
+      "email": "mdirshadengineer@gmail.com",
+      "url": "https://mdirshad.vercel.app"
+    }
+  ],
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/mdirshadengineer/flowblitz"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  }
+}
