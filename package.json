@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "description": "Automate. Innovate. Elevate.",
   "scripts": {
-    "web": "pnpm --filter @flowblitz start",
+    "web": "pnpm --filter @flowblitz/web start",
     "web:dev": "pnpm --filter @flowblitz/web dev",
+    "web:build": "pnpm --filter @flowblitz/web build",
     "changeset": "changeset init",
     "changeset:version": "changeset version",
     "changeset:publish": "changeset publish",
