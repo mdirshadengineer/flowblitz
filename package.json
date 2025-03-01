@@ -1,11 +1,16 @@
 {
-  "name": "flowblitz",
+  "name": "flowblitz.io",
   "version": "0.0.0",
   "description": "Automate. Innovate. Elevate.",
   "scripts": {
-    "web": "pnpm --filter @flowblitz/web start",
-    "web:dev": "pnpm --filter @flowblitz/web dev",
-    "web:build": "pnpm --filter @flowblitz/web build",
+    "web": "pnpm --filter flowblitz-app-web start",
+    "web:dev": "pnpm --filter flowblitz-app-web dev",
+    "web:build": "pnpm --filter flowblitz-app-web build",
+    "server:dev": "pnpm --filter flowblitz-app-server start:dev",
+    "server:build": "pnpm --filter flowblitz-app-server build",
+    "server:start": "pnpm --filter flowblitz-app-server start",
+    "server:lint": "pnpm --filter flowblitz-app-server lint",
+    "server:format": "pnpm --filter flowblitz-app-server format",
     "changeset": "changeset init",
     "changeset:version": "changeset version",
     "changeset:publish": "changeset publish",
@@ -22,10 +27,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@changesets/cli": "^2.27.12"
+    "@changesets/cli": "^2.27.12",
+    "@prisma/client": "^6.4.1"
   },
   "devDependencies": {
-    "prettier": "^3.5.0"
+    "prettier": "^3.5.0",
+    "prisma": "^6.4.1"
   },
   "repository": {
     "type": "git",

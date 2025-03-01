@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "CommonJS",
+    "outDir": "dist", // Output directory for compiled files
+    "rootDir": "src", // Root directory for source files
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationDir": "dist",
+    "experimentalDecorators": true
+  },
+  "include": ["src"], // Include all apps and packages
+  "exclude": ["node_modules"] // Exclude dependencies
+}
