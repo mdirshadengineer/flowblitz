@@ -3,9 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // directUrl = env("DIRECT_URL")
 }
 
 // // Agency Model (Enterprise Account)
@@ -180,3 +180,41 @@ datasource db {
 //   // Relationships
 //   executionPhase ExecutionPhase @relation(fields: [executionPhaseId], references: [id], onDelete: Cascade)
 // }
+
+model Form {
+  id          String   @id @default(cuid())
+  name        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  description String?
+  content     String   @default("[]")
+
+  published                            Boolean   @default(false)
+  publishedAt                          DateTime?
+  publishedBy                          String?
+  publishedVersion                     Int?
+  publishedContent                     String?
+  publishedContentHash                 String?
+  publishedContentHashAlgorithm        String?
+  publishedContentHashAlgorithmVersion String?
+
+  visits Int @default(0)
+
+  submissions Int @default(0)
+
+  shareUrl String @default(uuid())
+
+  // Relationships
+  FormSubmissions FormSubmissions[]
+}
+
+model FormSubmissions {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  formId String
+  form   Form   @relation(fields: [formId], references: [id])
+
+  content String @default("[]")
+}

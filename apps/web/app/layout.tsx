@@ -3,6 +3,7 @@ import 'app/_styles/globals.css';
 import type { Metadata } from 'next';
 import { Dancing_Script, Poppins } from 'next/font/google';
 import { ThemeProvider } from 'src/theme/theme-provider';
+import ClientProvider from './_provider';
 
 const poppins = Poppins({
   variable: '--font-poppins',
@@ -36,7 +37,7 @@ export default function RootLayout({
           enableSystem={true}
           disableTransitionOnChange
         >
-          {children}
+          <ClientProvider>{children}</ClientProvider>
         </ThemeProvider>
       </body>
     </html>
