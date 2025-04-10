@@ -3,218 +3,149 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-  // directUrl = env("DIRECT_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-// // Agency Model (Enterprise Account)
-// model Agency {
-//   id        String   @id @default(cuid())
-//   name      String
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   // Relationships
-//   users              UserAgency[]
-//   workflows          Workflow[]
-//   workflowExecutions WorkflowExecution[]
-
-//   ExecutionPhase ExecutionPhase[]
-// }
-
-// // User Model
-// model User {
-//   id        String   @id @default(cuid())
-//   email     String   @unique
-//   name      String
-//   type      UserType // Distinguishes between individual and enterprise users
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   // Relationships
-//   agencies            UserAgency[]
-//   roles               UserRole[]
-//   individualWorkflows Workflow[] // Workflows owned by individual users
-
-//   WorkflowExecution WorkflowExecution[]
-
-//   ExecutionPhase ExecutionPhase[]
-// }
-
-// // Enum for User Types
-// enum UserType {
-//   INDIVIDUAL
-//   ENTERPRISE
-// }
-
-// // Role Model
-// model Role {
-//   id          String   @id @default(cuid())
-//   name        String // e.g., "admin", "editor", "viewer"
-//   description String
-//   createdAt   DateTime @default(now())
-//   updatedAt   DateTime @updatedAt
-
-//   // Relationships
-//   userRoles   UserRole[]
-//   permissions RolePermission[]
-// }
-
-// // Permission Model
-// model Permission {
-//   id          String   @id @default(cuid())
-//   name        String // e.g., "create_workflow", "edit_workflow", "delete_workflow"
-//   description String
-//   createdAt   DateTime @default(now())
-//   updatedAt   DateTime @updatedAt
-
-//   // Relationships
-//   rolePermissions RolePermission[]
-// }
-
-// // Join Table for Many-to-Many Relationship Between Roles and Permissions
-// model RolePermission {
-//   roleId       String
-//   permissionId String
-
-//   // Relationships
-//   role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
-//   permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
-
-//   @@id([roleId, permissionId])
-// }
-
-// // Join Table for Many-to-Many Relationship Between Users and Roles
-// model UserRole {
-//   userId String
-//   roleId String
-//   scope  String? // Optional: Scope the role to a specific agency or resource
-
-//   // Relationships
-//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
-
-//   @@id([userId, roleId])
-// }
-
-// // Join Table for Many-to-Many Relationship Between Users and Agencies
-// model UserAgency {
-//   userId   String
-//   agencyId String
-//   role     String // Optional: Define roles like "admin", "member", etc.
-
-//   // Relationships
-//   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   agency Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
-
-//   @@id([userId, agencyId])
-// }
-
-// // Workflow Model
-// model Workflow {
-//   id          String              @id @default(cuid())
-//   number      Int                 @default(autoincrement())
-//   name        String
-//   description String
-//   definition  String
-//   createdAt   DateTime            @default(now())
-//   updatedAt   DateTime            @updatedAt
-//   agencyId    String? // Nullable: Only for enterprise workflows
-//   userId      String? // Nullable: Only for individual workflows
-//   agency      Agency?             @relation(fields: [agencyId], references: [id], onDelete: Cascade)
-//   user        User?               @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   executions  WorkflowExecution[]
-// }
-
-// // WorkflowExecution Model
-// model WorkflowExecution {
-//   id             String           @id @default(cuid())
-//   number         Int              @default(autoincrement())
-//   trigger        String
-//   status         String // TODO: It should be a new table mapping for handling choice or enum
-//   startedAt      DateTime?
-//   completedAt    DateTime?
-//   createdAt      DateTime         @default(now())
-//   updatedAt      DateTime         @updatedAt
-//   agencyId       String? // Nullable: Only for enterprise workflows
-//   userId         String? // Nullable: Only for individual workflows
-//   agency         Agency?          @relation(fields: [agencyId], references: [id], onDelete: Cascade)
-//   user           User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   workflowId     String
-//   workflow       Workflow         @relation(fields: [workflowId], references: [id], onDelete: Cascade)
-//   executionPhase ExecutionPhase[]
-// }
-
-// // ExecutionPhase Model
-// model ExecutionPhase {
-//   id                  String            @id @default(cuid())
-//   number              Int               @default(autoincrement())
-//   name                String
-//   inputs              String?
-//   node                String
-//   status              String
-//   outputs             String?
-//   startedAt           DateTime?
-//   completedAt         DateTime?
-//   createdAt           DateTime          @default(now())
-//   updatedAt           DateTime          @updatedAt
-//   agencyId            String? // Nullable: Only for enterprise workflows
-//   userId              String? // Nullable: Only for individual workflows
-//   agency              Agency?           @relation(fields: [agencyId], references: [id], onDelete: Cascade)
-//   user                User?             @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   workflowExecutionId String
-//   execution           WorkflowExecution @relation(fields: [workflowExecutionId], references: [id], onDelete: Cascade)
-//   logs                ExecutionLog[]
-// }
-
-// // ExecutionLog Model
-// model ExecutionLog {
-//   id               String   @id @default(cuid())
-//   executionPhaseId String // Links to the specific ExecutionPhase
-//   status           String // e.g., "started", "completed", "failed"
-//   message          String? // Optional: Additional details or error messages
-//   createdAt        DateTime @default(now())
-//   updatedAt        DateTime @updatedAt
-
-//   // Relationships
-//   executionPhase ExecutionPhase @relation(fields: [executionPhaseId], references: [id], onDelete: Cascade)
-// }
-
-model Form {
-  id          String   @id @default(cuid())
-  name        String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  description String?
-  content     String   @default("[]")
-
-  published                            Boolean   @default(false)
-  publishedAt                          DateTime?
-  publishedBy                          String?
-  publishedVersion                     Int?
-  publishedContent                     String?
-  publishedContentHash                 String?
-  publishedContentHashAlgorithm        String?
-  publishedContentHashAlgorithmVersion String?
-
-  visits Int @default(0)
-
-  submissions Int @default(0)
-
-  shareUrl String @default(uuid())
-
-  // Relationships
-  FormSubmissions FormSubmissions[]
+model Agency {
+  id                String              @id
+  name              String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime
+  ExecutionPhase    ExecutionPhase[]
+  UserAgency        UserAgency[]
+  Workflow          Workflow[]
+  WorkflowExecution WorkflowExecution[]
 }
 
-model FormSubmissions {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model ExecutionLog {
+  id               String         @id
+  executionPhaseId String
+  status           String
+  message          String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime
+  ExecutionPhase   ExecutionPhase @relation(fields: [executionPhaseId], references: [id], onDelete: Cascade)
+}
 
-  formId String
-  form   Form   @relation(fields: [formId], references: [id])
+model ExecutionPhase {
+  id                  String            @id
+  number              Int               @default(autoincrement())
+  name                String
+  inputs              String?
+  node                String
+  status              String
+  outputs             String?
+  startedAt           DateTime?
+  completedAt         DateTime?
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime
+  workflowExecutionId String
+  agencyId            String?
+  userId              String?
+  ExecutionLog        ExecutionLog[]
+  Agency              Agency?           @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  User                User?             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  WorkflowExecution   WorkflowExecution @relation(fields: [workflowExecutionId], references: [id], onDelete: Cascade)
+}
 
-  content String @default("[]")
+model Permission {
+  id             String           @id
+  name           String
+  description    String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime
+  RolePermission RolePermission[]
+}
+
+model Role {
+  id             String           @id
+  name           String
+  description    String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime
+  RolePermission RolePermission[]
+  UserRole       UserRole[]
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  Permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  Role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+}
+
+model User {
+  id                String              @id
+  email             String              @unique
+  name              String
+  type              UserType
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime
+  ExecutionPhase    ExecutionPhase[]
+  UserAgency        UserAgency[]
+  UserRole          UserRole[]
+  Workflow          Workflow[]
+  WorkflowExecution WorkflowExecution[]
+}
+
+model UserAgency {
+  userId   String
+  agencyId String
+  role     String
+  Agency   Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  User     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, agencyId])
+}
+
+model UserRole {
+  userId String
+  roleId String
+  scope  String?
+  Role   Role    @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  User   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+}
+
+model Workflow {
+  id                String              @id
+  name              String
+  description       String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime
+  definition        String
+  number            Int                 @default(autoincrement())
+  agencyId          String?
+  userId            String?
+  Agency            Agency?             @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  User              User?               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  WorkflowExecution WorkflowExecution[]
+}
+
+model WorkflowExecution {
+  id             String           @id
+  trigger        String
+  status         String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime
+  startedAt      DateTime?
+  completedAt    DateTime?
+  workflowId     String
+  number         Int              @default(autoincrement())
+  agencyId       String?
+  userId         String?
+  ExecutionPhase ExecutionPhase[]
+  Agency         Agency?          @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  User           User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Workflow       Workflow         @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+}
+
+enum UserType {
+  INDIVIDUAL
+  ENTERPRISE
 }
